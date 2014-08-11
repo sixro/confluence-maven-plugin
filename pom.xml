@@ -51,6 +51,17 @@
 			<version>1.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.codehaus.swizzle</groupId>
+			<artifactId>swizzle-confluence</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.rjeschke</groupId>
+			<artifactId>txtmark</artifactId>
+			<version>0.11</version>
+		</dependency>
+
 		<!-- == Testing ===================================== -->
 		<dependency>
 			<groupId>junit</groupId>
