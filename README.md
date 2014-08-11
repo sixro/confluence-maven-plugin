@@ -62,5 +62,5 @@ Another reason is the inspiration I had when I read this post of
 Tom Preston-Werner on [Readme Driven Development](http://tom.preston-werner.com/2010/08/23/readme-driven-development.html).
 
 An alternative to this project is [maven-confluence-plugin](https://code.google.com/p/maven-confluence-plugin/).
-It is different from mine, because it is more involved with maven site style. So
-it is useful is what you need is a site style page on your confluence space.
+It is different from `confluence-maven-plugin`, because it is more involved with maven site style. So
+it is useful if what you need is a site style page on your confluence space.
