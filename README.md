@@ -3,11 +3,11 @@ confluence-maven-plugin
 
 ## Description
 
-`confluence-maven-plugin` enables you to maintain confluence pages near your 
-source code, and update a confluence space when your are ready to do that.
+`confluence-maven-plugin` enables you to maintain confluence pages whitin your 
+code and update a confluence space when your are ready to do that.   
 Pages has to be written using Markdown syntax.
 
-_WARNING This is a *work in progress*_
+__WARNING This is a *work in progress*__
 
 ## Usage
 
