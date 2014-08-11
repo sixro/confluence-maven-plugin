@@ -21,14 +21,22 @@ add these lines in your `pom.xml`:
 		<version>0.1.0-SNAPSHOT</version>
 		<executions>
 			<execution>
-				<id>confluence-update</id>
+				<id>confluence-deploy</id>
 				<goals>
-					<goal>update</goal>
+					<goal>deploy</goal>
 				</goals>
 				<configuration>
-					<server>http://myconfluence:9090/rpc/xmlrpc</server>
-					<space>MYSPACE</space>
-					<remoteParentPage>MyParent+page</remoteParentPage>
+					<!-- this is the server id used to lookup in your
+					     settings.xml for username and password needed to access 
+						 to your confluence
+					  -->
+					<serverId>myconfluence</serverId>
+					<!-- this is the XMLRPC endpoint URL of your confluence -->
+					<endpoint>http://myconfluence:9090/rpc/xmlrpc</endpoint>
+					<-- represents the space key of your confluence space -->
+					<spaceKey>MYSPACE</spaceKey>
+					<!-- represents the page ID of your readme -->
+					<readmePageId>MyParent+page</readmePageId>
 				</configuration>
 			</execution>
 		</executions>
