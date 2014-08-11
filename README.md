@@ -33,7 +33,7 @@ add these lines in your `pom.xml`:
 					<serverId>myconfluence</serverId>
 					<!-- this is the XMLRPC endpoint URL of your confluence -->
 					<endpoint>http://myconfluence:9090/rpc/xmlrpc</endpoint>
-					<-- represents the space key of your confluence space -->
+					<!-- represents the space key of your confluence space -->
 					<spaceKey>MYSPACE</spaceKey>
 					<!-- represents the page ID of your readme -->
 					<readmePageId>MyParent+page</readmePageId>
