@@ -7,7 +7,7 @@ confluence-maven-plugin
 source code, and update a confluence space when your are ready to do that.
 Pages has to be written using Markdown syntax.
 
-*WARNING This is a _work in progress_*
+_WARNING This is a *work in progress*_
 
 ## Usage
 
