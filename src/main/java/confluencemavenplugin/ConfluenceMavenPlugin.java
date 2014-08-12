@@ -2,9 +2,6 @@ package confluencemavenplugin;
 
 import java.io.*;
 
-import org.apache.commons.io.IOUtils;
-import org.codehaus.swizzle.confluence.*;
-
 
 /**
  * Represents the {@code confluence-maven-plugin} main class (but not the {@code Mojo}s).
@@ -24,13 +21,14 @@ public class ConfluenceMavenPlugin {
 		markdown.toHtmlFile(outputDirectory);
 	}
 
-	public void deploy(Confluence confluence, String spaceKey, File outputDirectory, String readmePageId) throws DeployException {
+	public void deploy(Confluence confluence, File outputDirectory, String parentTitle) throws DeployException {
+		if (! confluence.existPage(parentTitle))
+			throw new DeployException("Unable to find any page with title '" + parentTitle + "' to use as parent");
+		
 		try {
-			Page page = confluence.getPage(spaceKey, readmePageId);
-			page.setContent(IOUtils.toString(new FileReader(new File(outputDirectory, "README.html"))));
-			confluence.storePage(page);
-		} catch (Exception e) {
-			throw new DeployException("Unable to deploy confluence pages", e);
+			confluence.addPage(parentTitle, new File(outputDirectory, "README.html"));
+		} catch (IOException e) {
+			throw new DeployException("Unable to deploy a page", e);
 		}
 	}
 

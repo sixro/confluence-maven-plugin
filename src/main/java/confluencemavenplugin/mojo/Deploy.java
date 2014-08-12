@@ -1,13 +1,11 @@
 package confluencemavenplugin.mojo;
 
 import java.io.File;
-import java.net.MalformedURLException;
 
 import org.apache.maven.plugin.*;
 import org.apache.maven.plugins.annotations.*;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.settings.*;
-import org.codehaus.swizzle.confluence.Confluence;
 
 import confluencemavenplugin.*;
 
@@ -34,8 +32,8 @@ public class Deploy extends AbstractMojo {
 	@Parameter(name="spaceKey", required=true)
 	private String spaceKey;
 
-	@Parameter(name="readmePageId", required=true)
-	private String readmePageId;
+	@Parameter(name="parentTitle", required=true)
+	private String parentTitle;
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
@@ -55,21 +53,21 @@ public class Deploy extends AbstractMojo {
 		
 		Confluence confluence = null;
 		try {
-			confluence = new Confluence(endpoint);
-			confluence.login(server.getUsername(), server.getPassword());
+			confluence = new Confluence(
+					endpoint, 
+					new Confluence.Credentials(server.getUsername(), server.getPassword()), 
+					spaceKey
+			);
+			confluence.login();
 
-			plugin.deploy(confluence, spaceKey, outputDirectory, readmePageId);
-		} catch (MalformedURLException e) {
-			throw new MojoExecutionException("Malformed URL of confluence", e);
+			plugin.deploy(confluence, outputDirectory, parentTitle);
 		} catch (DeployException e) {
 			throw new MojoExecutionException("Unable to deploy to confluence", e);
-		} catch (Exception e) {
-			throw new MojoExecutionException("Unable to login to confluence", e);
+		} catch (ConfluenceException e) {
+			throw new MojoExecutionException("Unable to deploy to confluence", e);
 		} finally {
-			if (confluence != null) {
-				try { confluence.logout(); } 
-				catch (Exception ignore) { }
-			}
+			if (confluence != null)
+				confluence.logout(); 
 		}
 	}
 
