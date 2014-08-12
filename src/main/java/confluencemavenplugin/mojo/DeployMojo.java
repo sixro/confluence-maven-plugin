@@ -1,4 +1,4 @@
-package confluencemavenplugin;
+package confluencemavenplugin.mojo;
 
 import org.apache.maven.plugin.*;
 

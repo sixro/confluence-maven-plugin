@@ -1,4 +1,4 @@
-package confluencemavenplugin;
+package confluencemavenplugin.mojo;
 
 import org.apache.maven.plugin.*;
 
@@ -10,13 +10,9 @@ import org.apache.maven.plugin.*;
  */
 public class GenerateMojo extends AbstractMojo {
 
-	
-	
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		getLog().info("[FAKE] generating confluence pages...");
-		
-		
 	}
 
 }
