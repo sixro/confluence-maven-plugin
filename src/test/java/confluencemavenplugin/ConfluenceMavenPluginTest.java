@@ -5,6 +5,10 @@ import static org.junit.Assert.*;
 import java.io.*;
 
 import org.apache.commons.io.FileUtils;
+import org.jmock.Expectations;
+import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.jmock.lib.concurrent.Synchroniser;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.*;
 
 public class ConfluenceMavenPluginTest {
@@ -13,6 +17,11 @@ public class ConfluenceMavenPluginTest {
 	private static final File README_MD   = new File("src/test/resources/README.md");
 	private static final File README_HTML = new File(OUTPUT_DIR, "README.html");
 
+	@Rule public JUnitRuleMockery context = new JUnitRuleMockery() {{
+		setImposteriser(ClassImposteriser.INSTANCE);
+		setThreadingPolicy(new Synchroniser());
+	}};
+	private Confluence confluence = context.mock(Confluence.class);
 	private ConfluenceMavenPlugin plugin;
 
 	@Before public void setup() throws IOException {
@@ -27,6 +36,18 @@ public class ConfluenceMavenPluginTest {
 
 		plugin.generate(README_MD, OUTPUT_DIR);
 		assertTrue(README_HTML.exists());
+	}
+
+	@Test public void deploy_asks_to_confluence_to_add_or_update_a_page() throws FileNotFoundException, IOException, DeployException {
+		final String parentTitle = "myParentTitle";
+		
+		context.checking(new Expectations() {{ 
+			oneOf(confluence).existPage(parentTitle);
+				will(returnValue(true));
+			oneOf(confluence).addOrUpdatePage(with(any(String.class)), with(any(File.class)));
+		}});
+		
+		plugin.deploy(confluence, OUTPUT_DIR, parentTitle);
 	}
 
 }

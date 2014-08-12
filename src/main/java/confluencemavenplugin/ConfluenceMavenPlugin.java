@@ -21,4 +21,15 @@ public class ConfluenceMavenPlugin {
 		markdown.toHtmlFile(outputDirectory);
 	}
 
+	public void deploy(Confluence confluence, File outputDirectory, String parentTitle) throws DeployException {
+		if (! confluence.existPage(parentTitle))
+			throw new DeployException("Unable to find any page with title '" + parentTitle + "' to use as parent");
+		
+		try {
+			confluence.addOrUpdatePage(parentTitle, new File(outputDirectory, "README.html"));
+		} catch (IOException e) {
+			throw new DeployException("Unable to deploy a page", e);
+		}
+	}
+
 }
