@@ -26,21 +26,47 @@ add these lines in your `pom.xml`:
 					<goal>deploy</goal>
 				</goals>
 				<configuration>
-					<!-- this is the server id used to lookup in your
-					     settings.xml for username and password needed to access 
-						 to your confluence
-					  -->
 					<serverId>myconfluence</serverId>
-					<!-- this is the XMLRPC endpoint URL of your confluence -->
 					<endpoint>http://myconfluence:9090/rpc/xmlrpc</endpoint>
-					<!-- represents the space key of your confluence space -->
 					<spaceKey>MYSPACE</spaceKey>
-					<!-- represents the page ID of your readme -->
-					<readmePageId>MyParent+page</readmePageId>
+					<parentTitle>MyParent title</parentTitle>
 				</configuration>
 			</execution>
 		</executions>
 	</plugin>
+```
+
+where `serverId` is a server identified that has to be found in your
+`${HOME}/.m2/settings.xml` and that contains credentials to use when plugin has
+to login to your confluence, `endpoint` is the `XMLRPC` endpoint URL of your
+confluence, `spaceKey` is the space key of your `project` (or where you want to
+upload your content) and `parentTitle` is the title of a parent page of which
+your `README.md` content will be added as a child.
+
+**PAY ATTENTION**: your `README.md` won't be uploaded with a title `README` but
+with the title that you'll put inside of it (e.g. the text starting with a
+single `#` character. See Markdown syntax for details).
+
+### `settings.xml` example
+
+Here you can find an example on what to add in your `${HOME}\.m2\settings.xml`.
+As you can see we added a `server` with an `id` matching the `serverId` added
+below. Than we configured a `username` and `password` matching credentials on
+our confluence:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+	<servers>
+		<server>
+			<id>myconfluence</id>
+			<username>aUsername</username>
+			<password>aPassword</password>
+		</server>
+	</servers>
+</settings>
 ```
 
 ## Where to get help
