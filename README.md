@@ -36,7 +36,7 @@ add these lines in your `pom.xml`:
 	</plugin>
 ```
 
-where `serverId` is a server identified that has to be found in your
+where `serverId` is a server identifier that has to be found in your
 `${HOME}/.m2/settings.xml` and that contains credentials to use when plugin has
 to login to your confluence, `endpoint` is the `XMLRPC` endpoint URL of your
 confluence, `spaceKey` is the space key of your `project` (or where you want to
@@ -51,7 +51,7 @@ single `#` character. See Markdown syntax for details).
 
 Here you can find an example on what to add in your `${HOME}\.m2\settings.xml`.
 As you can see we added a `server` with an `id` matching the `serverId` added
-below. Than we configured a `username` and `password` matching credentials on
+below. Then, we configured a `username` and a `password` matching credentials of
 our confluence:
 
 ```xml
