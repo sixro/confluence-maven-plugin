@@ -76,7 +76,16 @@ public class Confluence {
 		String title = tagText(content, "h1");
 		addPage(parentTitle, title, content);
 	}
-	
+
+	public void addOrUpdatePage(String parentTitle, File file) throws IOException {
+		String content = FileUtils.readFileToString(file);
+		String title = tagText(content, "h1");
+		if (! existPage(title))
+			addPage(parentTitle, title, content);
+		else
+			updatePage(title, content);
+	}
+
 	protected String tagText(String content, String tag) {
 		String tagBegin = "<" + tag + ">";
 		String tagEnd = "</" + tag + ">";

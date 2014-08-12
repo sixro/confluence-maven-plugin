@@ -26,7 +26,7 @@ public class ConfluenceMavenPlugin {
 			throw new DeployException("Unable to find any page with title '" + parentTitle + "' to use as parent");
 		
 		try {
-			confluence.addPage(parentTitle, new File(outputDirectory, "README.html"));
+			confluence.addOrUpdatePage(parentTitle, new File(outputDirectory, "README.html"));
 		} catch (IOException e) {
 			throw new DeployException("Unable to deploy a page", e);
 		}

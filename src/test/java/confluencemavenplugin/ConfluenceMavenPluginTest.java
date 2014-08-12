@@ -38,13 +38,13 @@ public class ConfluenceMavenPluginTest {
 		assertTrue(README_HTML.exists());
 	}
 
-	@Test public void deploy_asks_to_confluence_to_upload_README_when_it_exists() throws FileNotFoundException, IOException, DeployException {
+	@Test public void deploy_asks_to_confluence_to_add_or_update_a_page() throws FileNotFoundException, IOException, DeployException {
 		final String parentTitle = "myParentTitle";
 		
 		context.checking(new Expectations() {{ 
 			oneOf(confluence).existPage(parentTitle);
 				will(returnValue(true));
-			oneOf(confluence).addPage(with(any(String.class)), with(any(File.class)));
+			oneOf(confluence).addOrUpdatePage(with(any(String.class)), with(any(File.class)));
 		}});
 		
 		plugin.deploy(confluence, OUTPUT_DIR, parentTitle);
