@@ -1,5 +1,7 @@
 package confluencemavenplugin;
 
+import java.io.*;
+
 
 /**
  * Represents the {@code confluence-maven-plugin} main class (but not the {@code Mojo}s).
@@ -10,5 +12,13 @@ package confluencemavenplugin;
  * </p>
  */
 public class ConfluenceMavenPlugin {
+
+	public void generate(File readme, File outputDirectory) throws FileNotFoundException, IOException {
+		if (! outputDirectory.exists())
+			outputDirectory.mkdirs();
+		
+		Markdown markdown = new Markdown(readme);
+		markdown.toHtmlFile(outputDirectory);
+	}
 
 }

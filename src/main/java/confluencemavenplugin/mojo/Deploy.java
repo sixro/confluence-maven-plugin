@@ -10,7 +10,7 @@ import org.apache.maven.plugin.*;
  * 
  * @execute goal="generate"
  */
-public class DeployMojo extends AbstractMojo {
+public class Deploy extends AbstractMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
