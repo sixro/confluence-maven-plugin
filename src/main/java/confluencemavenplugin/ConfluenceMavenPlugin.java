@@ -2,6 +2,9 @@ package confluencemavenplugin;
 
 import java.io.*;
 
+import org.apache.commons.io.IOUtils;
+import org.codehaus.swizzle.confluence.*;
+
 
 /**
  * Represents the {@code confluence-maven-plugin} main class (but not the {@code Mojo}s).
@@ -19,6 +22,16 @@ public class ConfluenceMavenPlugin {
 		
 		Markdown markdown = new Markdown(readme);
 		markdown.toHtmlFile(outputDirectory);
+	}
+
+	public void deploy(Confluence confluence, String spaceKey, File outputDirectory, String readmePageId) throws DeployException {
+		try {
+			Page page = confluence.getPage(spaceKey, readmePageId);
+			page.setContent(IOUtils.toString(new FileReader(new File(outputDirectory, "README.html"))));
+			confluence.storePage(page);
+		} catch (Exception e) {
+			throw new DeployException("Unable to deploy confluence pages", e);
+		}
 	}
 
 }

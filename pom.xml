@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.sixro</groupId>
@@ -13,21 +14,28 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.7</java.version>
-		
 		<junit.version>4.11</junit.version>
 		<jmock.version>2.6.0</jmock.version>
+
+		<maven.version>3.0.5</maven.version>
+		<maven.plugin.version>3.3</maven.plugin.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
-			<version>3.0.5</version>
+			<version>${maven.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-project</artifactId>
-			<version>2.0.9</version>
+			<artifactId>maven-core</artifactId>
+			<version>${maven.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugin-tools</groupId>
+			<artifactId>maven-plugin-annotations</artifactId>
+			<version>${maven.plugin.version}</version>
 		</dependency>
 
 		<dependency>
@@ -54,7 +62,7 @@
 		<dependency>
 			<groupId>org.codehaus.swizzle</groupId>
 			<artifactId>swizzle-confluence</artifactId>
-			<version>1.1</version>
+			<version>1.6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.rjeschke</groupId>
@@ -111,27 +119,26 @@
 			</plugin>
 
 			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.3</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-plugin-plugin</artifactId>
+				<version>${maven.plugin.version}</version>
+				<configuration>
+					<goalPrefix>confluence</goalPrefix>
+				</configuration>
 				<executions>
 					<execution>
-						<id>attach-sources</id>
+						<id>default-descriptor</id>
 						<goals>
-							<goal>jar</goal>
+							<goal>descriptor</goal>
 						</goals>
+						<phase>process-classes</phase>
 					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9.1</version>
-				<executions>
 					<execution>
-						<id>attach-javadocs</id>
+						<id>help-descriptor</id>
 						<goals>
-							<goal>jar</goal>
+							<goal>helpmojo</goal>
 						</goals>
+						<phase>process-classes</phase>
 					</execution>
 				</executions>
 			</plugin>
@@ -149,6 +156,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
@@ -168,10 +176,11 @@
 											maven-plugin-plugin
 										</artifactId>
 										<versionRange>
-											[3.2,)
+											[3.3,)
 										</versionRange>
 										<goals>
 											<goal>descriptor</goal>
+											<goal>helpmojo</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
@@ -193,12 +202,15 @@
 		<tag>HEAD</tag>
 	</scm>
 
+	<!-- FIXME commented till it does not have to be uploaded on Sonatype -->
+	<!-- 
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
+	 -->
 
 	<issueManagement>
 		<system>Github Issue Tracker</system>
@@ -222,6 +234,8 @@
 	</developers>
 
 	<profiles>
+		<!-- FIXME commented till it does not have to be uploaded on Sonatype -->
+		<!--
 		<profile>
 			<id>release</id>
 			<build>
@@ -286,37 +300,7 @@
 				</plugins>
 			</build>
 		</profile>
-
-		<!--		
-		<profile>
-			<id>test</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-site-plugin</artifactId>
-						<version>3.4</version>
-						<configuration>
-							<skip>true</skip>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>com.github.sixro</groupId>
-						<artifactId>confluence-maven-plugin</artifactId>
-						<version>0.1.0-SNAPSHOT</version>
-						<executions>
-							<execution>
-								<id>deploy</id>
-								<goals>
-									<goal>deploy</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		  -->
+		-->
 	</profiles>
 
 </project>
