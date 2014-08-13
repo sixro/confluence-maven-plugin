@@ -17,7 +17,7 @@ import confluencemavenplugin.*;
 )
 public class Deploy extends AbstractMojo {
 
-	@Component
+	@Parameter(defaultValue="${settings}", readonly=true)
 	private Settings settings;
 	
 	@Parameter(name="outputDirectory", defaultValue="${project.build.directory}/confluence")
