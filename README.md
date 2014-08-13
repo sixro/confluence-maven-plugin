@@ -3,7 +3,7 @@ confluence-maven-plugin
 
 ## Description
 
-`confluence-maven-plugin` enables you to maintain wiki pages (written in
+**confluence-maven-plugin** enables you to maintain wiki pages (written in
 Markdown syntax) whitin your code and update them to a confluence space.   
 A `README.md` in the root of the project is required.   
 The experience should be similar to how you develop in Github (see _Credits,
@@ -107,5 +107,5 @@ Another reason is the inspiration I had when I read this post of
 Tom Preston-Werner on [Readme Driven Development](http://tom.preston-werner.com/2010/08/23/readme-driven-development.html).
 
 An alternative to this project is [maven-confluence-plugin](https://code.google.com/p/maven-confluence-plugin/).
-It is different from `confluence-maven-plugin`, because it is more involved with maven site style. So
+It is different from **confluence-maven-plugin**, because it is more involved with maven site style. So
 it is useful if what you need is a site style page on your confluence space.
