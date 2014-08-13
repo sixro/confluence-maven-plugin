@@ -3,7 +3,7 @@ confluence-maven-plugin
 
 ## Summary
 
-  # [Description](#description)
+  1. [Description](#description)
 
 ## <a name="description"/>Description
 
