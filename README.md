@@ -4,6 +4,14 @@ confluence-maven-plugin
 ## Summary
 
   1. [Description](#description)
+  1. [Tutorial](#tutorial)
+  1. [Usage](#usage)
+    1. [Plugin configuration](#usage_plugin_configuration)
+    1. [`settings.xml` example](#usage_settings_xml_example)
+  1. [Where to get help](#where_to_get_help)
+  1. [Contribution guidelines](#contribution_guidelines)
+  1. [Contributor list](#contributor_list)
+  1. [Credits, Inspiration, Alternatives](#credits_inspiration_alternatives)
 
 ## <a name="description"/>Description
 
