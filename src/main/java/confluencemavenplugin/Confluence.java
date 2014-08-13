@@ -150,10 +150,11 @@ public class Confluence {
 			List<PageSummary> children = server.getChildren(pageId(parentTitle));
 			Map<String, PageSummary> titlesToRemotePages = mapTitlesToPages(children);
 			
-			Set<String> localTitles = titlesToFiles.keySet();
-			Set<String> remoteTitles = titlesToRemotePages.keySet();
-			Collection<String> titlesOfRemotePagesToDelete = CollectionUtils.removeAll(remoteTitles, localTitles);
-			deletePages(titlesOfRemotePagesToDelete);
+			Collection<String> titlesOfPagesToRemove = CollectionUtils.removeAll(
+					titlesToRemotePages.keySet(), 
+					titlesToFiles.keySet()
+			);
+			deletePages(titlesOfPagesToRemove);
 			for (File file : files)
 				addOrUpdatePage(parentTitle, file);
 		} catch (SwizzleException e) {
