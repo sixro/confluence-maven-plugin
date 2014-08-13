@@ -48,16 +48,25 @@ public class ConfluenceMavenPluginTest {
 		assertTrue(html.contains(artifactId));
 	}
 
-	@Test public void deploy_asks_to_confluence_to_add_or_update_a_page() throws FileNotFoundException, IOException, DeployException {
+	@Test public void deploy_asks_to_confluence_to_add_or_update_readme_and_to_sync_wiki_files() throws FileNotFoundException, IOException, DeployException {
 		final String parentTitle = "myParentTitle";
+		final String readmeTitle = "my title";
+		OUTPUT_DIR.mkdirs();
+		create(README_HTML);
 		
-		context.checking(new Expectations() {{ 
-			oneOf(confluence).existPage(parentTitle);
-				will(returnValue(true));
-			oneOf(confluence).addOrUpdatePage(with(any(String.class)), with(any(File.class)));
+		context.checking(new Expectations() {{
+			oneOf(confluence).addOrUpdatePage(parentTitle, README_HTML);
+				will(returnValue(readmeTitle));
+			oneOf(confluence).sync(new File[]{ }, readmeTitle);
 		}});
 		
 		plugin.deploy(confluence, OUTPUT_DIR, parentTitle);
+	}
+
+	private void create(File file) throws FileNotFoundException {
+		PrintWriter writer = new PrintWriter(file);
+		writer.write("x");
+		writer.close();
 	}
 
 }
