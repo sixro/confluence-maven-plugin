@@ -84,15 +84,4 @@ public class ConfluenceMavenPlugin {
 		return writerOnText.toString();
 	}
 
-	protected String publish(Confluence confluence, File file, String parentTitle) throws DeployException {
-		if (! confluence.existPage(parentTitle))
-			throw new DeployException("Unable to find any page with title '" + parentTitle + "' to use as parent");
-
-		try {
-			return confluence.addOrUpdatePage(parentTitle, file);
-		} catch (IOException e) {
-			throw new DeployException("Unable to deploy a page '" + file + "'", e);
-		}
-	}
-
 }
