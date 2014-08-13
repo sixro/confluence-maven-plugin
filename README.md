@@ -1,7 +1,11 @@
 confluence-maven-plugin
 =======================
 
-## Description
+## Summary
+
+  # [Description](#description)
+
+## <a name="description"/>Description
 
 **confluence-maven-plugin** enables you to maintain wiki pages (written in
 Markdown syntax) whitin your code and update them to a confluence space.   
@@ -90,6 +94,8 @@ If you click on `vodafone-sms` page of your confluence, you should see the
 content of your `README.md`:
 
 ![Results of page content](src/wiki/results_page-content.png)
+
+Now take a look to _Usage_ to know more on configuration parameters, etc...
 
 ## Usage
 
