@@ -3,7 +3,7 @@
 
 	<groupId>com.github.sixro</groupId>
 	<artifactId>confluence-maven-plugin</artifactId>
-	<version>0.1.2-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
 
 	<name>${project.groupId}:${project.artifactId}</name>
