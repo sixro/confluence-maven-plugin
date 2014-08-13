@@ -43,14 +43,7 @@ public class Deploy extends AbstractMojo {
 		if (server == null)
 			throw new MojoFailureException("Unable to find any server identified by \"" + serverId + "\" in your settings.xml");
 
-//		Confluence confluence = new Confluence(
-//				new Confluence.Credentials(server.getUsername(), server.getPassword()), 
-//				endpoint, 
-//				spaceKey
-//		);
-
 		ConfluenceMavenPlugin plugin = new ConfluenceMavenPlugin();
-		
 		Confluence confluence = null;
 		try {
 			confluence = new Confluence(

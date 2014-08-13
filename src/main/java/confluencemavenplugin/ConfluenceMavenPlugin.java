@@ -1,9 +1,10 @@
 package confluencemavenplugin;
 
 import java.io.*;
-import java.util.Collections;
+import java.util.*;
 
 import org.apache.commons.io.*;
+import org.apache.commons.io.filefilter.*;
 import org.apache.maven.project.MavenProject;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -18,6 +19,8 @@ import org.apache.velocity.app.Velocity;
  * </p>
  */
 public class ConfluenceMavenPlugin {
+
+	private static final String README_HTML = "README.html";
 
 	public void generate(File file, MavenProject project, File outputDirectory) throws FileNotFoundException, IOException {
 		if (! outputDirectory.exists())
@@ -35,6 +38,38 @@ public class ConfluenceMavenPlugin {
 		writer.close();
 	}
 
+	public void generateAll(File directory, MavenProject project, File outputDirectory) throws FileNotFoundException, IOException {
+		Collection<File> files = FileUtils.listFiles(directory, new SuffixFileFilter(".md"), FalseFileFilter.INSTANCE);
+		for (File file : files)
+			generate(file, project, outputDirectory);
+	}
+	
+	public void deploy(Confluence confluence, File outputDirectory, String parentTitle) throws DeployException {
+		File readme = new File(outputDirectory, README_HTML);
+		String wikiParent;
+		try {
+			wikiParent = confluence.addOrUpdatePage(parentTitle, readme);
+			confluence.sync(
+					findWikiFiles(outputDirectory), 
+					wikiParent
+			);
+		} catch (IOException e) {
+			throw new DeployException("Unable to deploy to confluence", e);
+		}
+	}
+
+	private File[] findWikiFiles(File outputDirectory) {
+		Collection<File> files = FileUtils.listFiles(
+				outputDirectory, 
+				new AndFileFilter(
+						new SuffixFileFilter(".html"),
+						new NotFileFilter(new NameFileFilter(README_HTML))
+				),
+				FalseFileFilter.INSTANCE
+		);
+		return files.toArray(new File[0]);
+	}
+
 	private String replaceProjectProperties(String html, MavenProject project) {
 		StringWriter writerOnText = new StringWriter();
 		boolean evaluated = Velocity.evaluate(
@@ -42,21 +77,21 @@ public class ConfluenceMavenPlugin {
 				writerOnText, 
 				getClass().getName(), 
 				html
-		);
+				);
 		if (! evaluated)
 			throw new RuntimeException("Unable to replace project properties inside content '" + html + "'");
 		
 		return writerOnText.toString();
 	}
 
-	public void deploy(Confluence confluence, File outputDirectory, String parentTitle) throws DeployException {
+	protected String publish(Confluence confluence, File file, String parentTitle) throws DeployException {
 		if (! confluence.existPage(parentTitle))
 			throw new DeployException("Unable to find any page with title '" + parentTitle + "' to use as parent");
-		
+
 		try {
-			confluence.addOrUpdatePage(parentTitle, new File(outputDirectory, "README.html"));
+			return confluence.addOrUpdatePage(parentTitle, file);
 		} catch (IOException e) {
-			throw new DeployException("Unable to deploy a page", e);
+			throw new DeployException("Unable to deploy a page '" + file + "'", e);
 		}
 	}
 

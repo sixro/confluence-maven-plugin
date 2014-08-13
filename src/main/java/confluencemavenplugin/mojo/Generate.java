@@ -22,15 +22,19 @@ public class Generate extends AbstractMojo {
 	
 	@Parameter(name="readme", defaultValue="${project.basedir}/README.md")
 	private File readme;
-	
+
+	@Parameter(name="wikiDirectory", defaultValue="${basedir}/src/wiki")
+	private File wikiDirectory;
+
 	@Parameter(name="outputDirectory", defaultValue="${project.build.directory}/confluence")
 	private File outputDirectory;
 	
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		getLog().info(getClass().getName() + ".execute***");
-		getLog().info(getClass().getName() + " readme: " + readme);
-		getLog().info(getClass().getName() + " outputDirectory: " + outputDirectory);
+		getLog().info(getClass().getName() + " readme ...........: " + readme);
+		getLog().info(getClass().getName() + " wikiDirectory ....: " + wikiDirectory);
+		getLog().info(getClass().getName() + " outputDirectory ..: " + outputDirectory);
 		
 		if (! readme.exists() || !readme.isFile() || !readme.canRead())
 			throw new MojoFailureException("README file \"" + readme + "\" does not exist or it does not seem to be readable");
@@ -38,6 +42,8 @@ public class Generate extends AbstractMojo {
 		try {
 			ConfluenceMavenPlugin plugin = new ConfluenceMavenPlugin();
 			plugin.generate(readme, project, outputDirectory);
+			if (wikiDirectory.exists())
+				plugin.generateAll(wikiDirectory, project, outputDirectory);
 		} catch (IOException e) {
 			throw new RuntimeException("Unable to generate README", e);
 		}

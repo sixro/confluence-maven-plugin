@@ -2,8 +2,10 @@ package confluencemavenplugin;
 
 import java.io.*;
 import java.net.MalformedURLException;
+import java.util.*;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.*;
 import org.codehaus.swizzle.confluence.*;
 
 public class Confluence {
@@ -73,28 +75,26 @@ public class Confluence {
 
 	public void addPage(String parentTitle, File file) throws IOException {
 		String content = FileUtils.readFileToString(file);
-		String title = tagText(content, "h1");
+		String title = titleOf(content);
 		addPage(parentTitle, title, content);
 	}
 
-	public void addOrUpdatePage(String parentTitle, File file) throws IOException {
+	/**
+	 * Add or updated specific page returning the title of current page in order to create trees.
+	 * 
+	 * @param parentTitle title of parent page
+	 * @param file an HTML file suitable for confluence
+	 * @return title of added (or updated) page
+	 * @throws IOException if an error occurs
+	 */
+	public String addOrUpdatePage(String parentTitle, File file) throws IOException {
 		String content = FileUtils.readFileToString(file);
-		String title = tagText(content, "h1");
+		String title = titleOf(content);
 		if (! existPage(title))
 			addPage(parentTitle, title, content);
 		else
 			updatePage(title, content);
-	}
-
-	protected String tagText(String content, String tag) {
-		String tagBegin = "<" + tag + ">";
-		String tagEnd = "</" + tag + ">";
-		try {
-			String substring = content.substring(0, content.indexOf(tagEnd));
-			return substring.substring(content.indexOf(tagBegin) + tagBegin.length());
-		} catch (StringIndexOutOfBoundsException e) {
-			throw new IllegalStateException("Unable to retrieve text of tag '" + tag + "' in content '" + content + "'", e);
-		}
+		return title;
 	}
 
 	public void deletePage(String title) {
@@ -104,6 +104,10 @@ public class Confluence {
 		} catch (SwizzleException e) {
 			throw new ConfluenceException("Unable to delete page with title '" + title + "' (ID: " + pageId + ")", e);
 		}
+	}
+
+	public void deletePages(Iterable<String> titles) {
+		for (String title : titles) deletePage(title);
 	}
 
 	public void updatePage(String title, String content) {
@@ -135,6 +139,66 @@ public class Confluence {
 			return server.getPage(spaceKey, title).getContent();
 		} catch (SwizzleException e) {
 			throw new ConfluenceException("Unable to retrieve page ID of a page with title '" + title + "'", e);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void sync(File[] files, String parentTitle) {
+		Map<String, File> titlesToFiles = mapTitlesToFiles(files);
+		
+		try {
+			List<PageSummary> children = server.getChildren(pageId(parentTitle));
+			Map<String, PageSummary> titlesToRemotePages = mapTitlesToPages(children);
+			
+			Set<String> localTitles = titlesToFiles.keySet();
+			Set<String> remoteTitles = titlesToRemotePages.keySet();
+			Collection<String> titlesOfRemotePagesToDelete = CollectionUtils.removeAll(remoteTitles, localTitles);
+			deletePages(titlesOfRemotePagesToDelete);
+			for (File file : files)
+				addOrUpdatePage(parentTitle, file);
+		} catch (SwizzleException e) {
+			throw new ConfluenceException("Unable to sync files " + Arrays.toString(files) + " as children of page with title '" + parentTitle + "'", e);
+		} catch (IOException e) {
+			throw new ConfluenceException("Unable to add or update a page found in files " + Arrays.toString(files) + " as children of page with title '" + parentTitle + "'", e);
+		}
+	}
+
+	private Map<String, File> mapTitlesToFiles(File[] files) {
+		Map<String, File> map = new LinkedHashMap<>();
+		for (File file : files) {
+			String title = titleOf(file);
+			map.put(title, file);
+		}
+		return map;
+	}
+
+	private Map<String, PageSummary> mapTitlesToPages(List<PageSummary> pages) {
+		Map<String, PageSummary> map = new LinkedHashMap<>();
+		for (PageSummary page : pages)
+			map.put(page.getTitle(), page);
+		return map;
+	}
+	
+	private String titleOf(File file) {
+		try {
+			return titleOf(FileUtils.readFileToString(file));
+		} catch (IOException e) {
+			throw new RuntimeException("Unable to load title of file '" + file + "'", e);
+		}
+	}
+
+	private String titleOf(String content) {
+		return tagText(content, "h1");
+	}
+
+	protected String tagText(String content, String tag) {
+		String tagBegin = "<" + tag + ">";
+		String tagEnd = "</" + tag + ">";
+		try {
+			String substring = content.substring(0, content.indexOf(tagEnd));
+			return substring.substring(content.indexOf(tagBegin) + tagBegin.length());
+		} catch (StringIndexOutOfBoundsException e) {
+			throw new IllegalStateException("Unable to retrieve text of tag '" + tag + "' in content '" + content + "'", e);
 		}
 	}
 
