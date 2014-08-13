@@ -24,7 +24,7 @@ Take a look to the tutorial to know how it works.
 
 The plugin is available on Maven central thanks to [Sonatype](http://www.sonatype.org).
 
-## Tutorial
+## <a name="tutorial"/>Tutorial
 
 Create a `README.md` file in the root of your project and add following content:
 
@@ -105,7 +105,7 @@ content of your `README.md`:
 
 Now take a look to _Usage_ to know more on configuration parameters, etc...
 
-## Usage
+## <a name="usage"/>Usage
 
 The plugin is deployed on Sonatype Maven repository. So all you need to do is
 add these lines in your `pom.xml`:
@@ -143,7 +143,7 @@ your `README.md` content will be added as a child.
 with the title that you'll put inside of it (e.g. the text starting with a
 single `#` character. See Markdown syntax for details).
 
-### Plugin configuration
+### <a name="usage_plugin_configuration" />Plugin configuration
 
 TODO
 
