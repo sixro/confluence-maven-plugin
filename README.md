@@ -3,11 +3,18 @@ confluence-maven-plugin
 
 ## Description
 
-`confluence-maven-plugin` enables you to maintain confluence pages whitin your 
-code and update a confluence space when your are ready to do that.   
-Pages has to be written using Markdown syntax.
+`confluence-maven-plugin` enables you to maintain wiki pages (written in
+Markdown syntax) whitin your code and update them to a confluence space.   
+A `README.md` in the root of the project is required.   
+The experience should be similar to how you develop in Github (see _Credits,
+Inspiration, Alternatives_ for more on this).   
+Take a look to the tutorial to know how it works.   
 
-__WARNING This is a *work in progress*__
+The plugin is available on Maven central thanks to [Sonatype](http://www.sonatype.org).
+
+## Tutorial
+
+TODO
 
 ## Usage
 
@@ -18,7 +25,7 @@ add these lines in your `pom.xml`:
     <plugin>
 		<groupId>com.github.sixro</groupId>
 		<artifactId>confluence-maven-plugin</artifactId>
-		<version>0.1.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 		<executions>
 			<execution>
 				<id>confluence-deploy</id>
@@ -46,6 +53,10 @@ your `README.md` content will be added as a child.
 **PAY ATTENTION**: your `README.md` won't be uploaded with a title `README` but
 with the title that you'll put inside of it (e.g. the text starting with a
 single `#` character. See Markdown syntax for details).
+
+### Plugin configuration
+
+TODO
 
 ### `settings.xml` example
 
