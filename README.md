@@ -136,13 +136,20 @@ In the next chapter you'll have a description for every configuration parameter.
 
 ### <a name="usage_plugin_configuration" />Plugin configuration
 
-  * `serverId`: TODO
-  * `endpoint`: TODO
-  * `spaceKey`: TODO
-  * `parentTitle`: TODO
-  * `outputDirectory`: TODO
-  * `readme`: TODO
-  * `wikiDirectory`: TODO
+  * `serverId` is used to look up in your `${HOME}/.m2/settings.xml` for 
+                credentials to use to connect to your confluence
+  * `endpoint` is the URL of your confluence XMLRPC apis
+  * `spaceKey` is a space key found on your confluence
+  * `parentTitle` is the parent title of a page which content will be replaced 
+                   by your `README.md` content and where all `src/wiki` pages
+				   will be added as children
+  * `outputDirectory` is the output directory where HTML are generated and where
+                      `deploy` goal load pages to deploy (optional; default
+					  values is `${project.build.directory}/confluence`)
+  * `readme` is the file path of your `README.md` (optional; default value is
+             `README.md` in the root of your project)
+  * `wikiDirectory` is the directory where to find additional wiki files
+	(optional; default value is `src/wiki`)
 
 ### <a name="usage_settings_xml_example" />settings.xml example
 
