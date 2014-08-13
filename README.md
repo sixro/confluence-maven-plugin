@@ -5,7 +5,7 @@ confluence-maven-plugin
 
 **confluence-maven-plugin** enables you to maintain wiki pages (written in
 Markdown syntax) whitin your code and update them to a confluence space.   
-A `README.md` in the root of the project is required.   
+A `README.md` in the root of your project is always required.   
 The experience should be similar to how you develop in Github (see _Credits,
 Inspiration, Alternatives_ for more on this).   
 Take a look to the tutorial to know how it works.   
@@ -14,7 +14,82 @@ The plugin is available on Maven central thanks to [Sonatype](http://www.sonatyp
 
 ## Tutorial
 
+Create a `README.md` file in the root of your project and add following content:
+
+```
+vodafone-sms
+==============
+
+## Description
+
+`vodafone-sms` is a library created here in ICTeam to send [SMS](http://en.wikipedia.org/wiki/Short_Message_Service)
+from application deployed to Vodafone hosts.
+
+## Tutorial
+
 TODO
+```
+
+Create a folder `wiki` under `src`.
+Inside `src/wiki` create two files:
+
+  * `tem.md`
+  * `nplex.md`
+
+Put the content you want in these wiki files.
+
+Declare the plugin in your `pom.xml` (see _Usage_ in this
+page for more on this). E.g.:
+
+```xml
+	<plugin>
+		<groupId>com.github.sixro</groupId>
+		<artifactId>confluence-maven-plugin</artifactId>
+		<version>1.0.0</version>
+		<executions>
+			<execution>
+				<id>generate-and-deploy</id>
+				<goals>
+					<goal>generate</goal>
+					<goal>deploy</goal>
+				</goals>
+				<!-- ONLY IN THIS TUTORIAL... IT IS BETTER TO USE THE DEFAULT PHASE "deploy"-->
+				<phase>process-resources</phase>
+				<configuration>
+					<serverId>my-confluence-server</serverId>
+					<endpoint>http://myconfluence:8080/rpc/xmlrpc</endpoint>
+					<spaceKey>MYSPACE</spaceKey>
+					<parentTitle>Projects</parentTitle>
+				</configuration>
+			</execution>
+		</executions>
+	</plugin>
+```
+
+where `my-confluence-server` is used to look up in your
+`${HOME}/.m2/settings.xml` for credentials to use to connect to your
+confluence, `http://myconfluence:8080/rpc/xmlrpc` of `endpoint` parameter is the
+URL of your confluence XMLRPC apis, `MYSPACE` is a space you should have on your
+confluence and `Projects` is the parent title of a page which content will be
+replaced by our `README.md` and where all `src/wiki` pages will be added as
+children.
+
+Execute:
+
+```shell
+	mvn process-resources
+```
+
+You should see on your confluence a page named with the title of the
+`README.md` (`vodafone-sms` in this tutorial) and children named with titles
+of pages found under `src/wiki`:
+
+![Results of left menu](src/wiki/results_left-menu.png)
+
+If you click on `vodafone-sms` page of your confluence, you should see the
+content of your `README.md`:
+
+![Results of page content](src/wiki/results_page-content.png)
 
 ## Usage
 
