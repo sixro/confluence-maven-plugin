@@ -5,6 +5,7 @@ import java.io.*;
 import org.apache.maven.plugin.*;
 import org.apache.maven.plugins.annotations.*;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.project.MavenProject;
 
 import confluencemavenplugin.ConfluenceMavenPlugin;
 
@@ -16,6 +17,9 @@ import confluencemavenplugin.ConfluenceMavenPlugin;
 )
 public class Generate extends AbstractMojo {
 
+	@Parameter(defaultValue="${project}", readonly=true)
+	private MavenProject project;
+	
 	@Parameter(name="readme", defaultValue="${project.basedir}/README.md")
 	private File readme;
 	
@@ -33,7 +37,7 @@ public class Generate extends AbstractMojo {
 
 		try {
 			ConfluenceMavenPlugin plugin = new ConfluenceMavenPlugin();
-			plugin.generate(readme, outputDirectory);
+			plugin.generate(readme, project, outputDirectory);
 		} catch (IOException e) {
 			throw new RuntimeException("Unable to generate README", e);
 		}

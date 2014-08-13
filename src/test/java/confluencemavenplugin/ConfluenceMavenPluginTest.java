@@ -4,7 +4,8 @@ import static org.junit.Assert.*;
 
 import java.io.*;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.*;
+import org.apache.maven.project.MavenProject;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.jmock.lib.concurrent.Synchroniser;
@@ -31,11 +32,20 @@ public class ConfluenceMavenPluginTest {
 		plugin = new ConfluenceMavenPlugin();
 	}
 	
-	@Test public void generate_create_an_html_in_output_directory() throws FileNotFoundException, IOException {
+	@Test public void generate_create_an_html_from_markdown_then_replace_project_properties_inside_of_it_and_put_the_resulting_HTML_in_output_directory() throws FileNotFoundException, IOException {
 		assertFalse(README_HTML.exists());
+		assertTrue(FileUtils.readFileToString(README_MD).contains("${project.artifactId}"));
 
-		plugin.generate(README_MD, OUTPUT_DIR);
+		String artifactId = "confluence-maven-plugin";
+		MavenProject project = new MavenProject();
+		project.setArtifactId(artifactId);
+		
+		plugin.generate(README_MD, project, OUTPUT_DIR);
+		
 		assertTrue(README_HTML.exists());
+		String html = FileUtils.readFileToString(README_HTML);
+		assertFalse(html.contains("${project.artifactId}"));
+		assertTrue(html.contains(artifactId));
 	}
 
 	@Test public void deploy_asks_to_confluence_to_add_or_update_a_page() throws FileNotFoundException, IOException, DeployException {
