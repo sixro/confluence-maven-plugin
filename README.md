@@ -58,7 +58,7 @@ document for more on this). E.g.:
 	<plugin>
 		<groupId>com.github.sixro</groupId>
 		<artifactId>confluence-maven-plugin</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.3</version>
 		<executions>
 			<execution>
 				<id>generate-and-deploy</id>
@@ -114,7 +114,7 @@ In order to use the plugin you have to add these lines in your `pom.xml`:
     <plugin>
 		<groupId>com.github.sixro</groupId>
 		<artifactId>confluence-maven-plugin</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.3</version>
 		<executions>
 			<execution>
 				<id>confluence-deploy</id>
@@ -150,6 +150,13 @@ In the next chapter you'll have a description for every configuration parameter.
              `README.md` in the root of your project)
   * `wikiDirectory` is the directory where to find additional wiki files
 	(optional; default value is `src/wiki`)
+
+
+[Jamie Townsend](http://github.com/jamietownsend) has found an issue related to character encoding on v1.0.1: 
+the plugin read markdowns with default character encoding.  
+Starting with v1.0.3, the default character encoding is `UTF-8`, but you can change
+it defining system variable `markdown.characterencoding`.
+
 
 ### <a name="usage_settings_xml_example" />settings.xml example
 
@@ -188,6 +195,7 @@ Thanks!
 ## <a name="contributor_list"/>Contributor list
 
   * [Sixro](http://github.com/sixro)
+  * [jamietownsend](http://github.com/jamietownsend)
 
 ## <a name="credits_inspiration_alternatives"/>Credits, Inspiration, Alternatives
 

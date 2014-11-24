@@ -8,6 +8,8 @@ import com.github.rjeschke.txtmark.Processor;
 
 public class Markdown {
 
+	private static final String CHARACTER_ENCODING = System.getProperty("markdown.characterencoding", "UTF-8");
+	
 	private String text;
 	private File file;
 
@@ -17,8 +19,16 @@ public class Markdown {
 	}
 	
 	public Markdown(File file) throws FileNotFoundException, IOException {
-		this(IOUtils.toString(new FileReader(file)));
+		this(IOUtils.toString(newReader(file)));
 		this.file = file;
+	}
+
+	private static Reader newReader(File file) throws FileNotFoundException {
+		try {
+			return new InputStreamReader(new FileInputStream(file), CHARACTER_ENCODING);
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("Unable to create a Reader on file " + file + " due to an unsupported encoding", e);
+		}
 	}
 
 	public String toHtml() {
