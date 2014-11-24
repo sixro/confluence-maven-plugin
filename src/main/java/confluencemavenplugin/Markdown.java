@@ -17,8 +17,16 @@ public class Markdown {
 	}
 	
 	public Markdown(File file) throws FileNotFoundException, IOException {
-		this(IOUtils.toString(new FileReader(file)));
+		this(IOUtils.toString(newReader(file)));
 		this.file = file;
+	}
+
+	private static Reader newReader(File file) throws FileNotFoundException {
+		try {
+			return new InputStreamReader(new FileInputStream(file), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("Unable to create a Reader on file " + file + " due to an unsupported encoding", e);
+		}
 	}
 
 	public String toHtml() {

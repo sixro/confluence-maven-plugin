@@ -58,7 +58,7 @@ document for more on this). E.g.:
 	<plugin>
 		<groupId>com.github.sixro</groupId>
 		<artifactId>confluence-maven-plugin</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.3</version>
 		<executions>
 			<execution>
 				<id>generate-and-deploy</id>
@@ -114,7 +114,7 @@ In order to use the plugin you have to add these lines in your `pom.xml`:
     <plugin>
 		<groupId>com.github.sixro</groupId>
 		<artifactId>confluence-maven-plugin</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.3</version>
 		<executions>
 			<execution>
 				<id>confluence-deploy</id>
@@ -188,6 +188,7 @@ Thanks!
 ## <a name="contributor_list"/>Contributor list
 
   * [Sixro](http://github.com/sixro)
+  * [jamietownsend](http://github.com/jamietownsend)
 
 ## <a name="credits_inspiration_alternatives"/>Credits, Inspiration, Alternatives
 
