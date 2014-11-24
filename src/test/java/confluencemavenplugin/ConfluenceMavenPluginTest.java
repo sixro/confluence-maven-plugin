@@ -14,9 +14,10 @@ import org.junit.*;
 
 public class ConfluenceMavenPluginTest {
 
-	private static final File OUTPUT_DIR  = new File("target/unit-tests-output");
-	private static final File README_MD   = new File("src/test/resources/README.md");
-	private static final File README_HTML = new File(OUTPUT_DIR, "README.html");
+	private static final File OUTPUT_DIR    = new File("target/unit-tests-output");
+	private static final String README_NAME = "README-example";
+	private static final File README_MD     = new File("src/test/resources/" + README_NAME + ".md");
+	private static final File README_HTML   = new File(OUTPUT_DIR, README_NAME + ".html");
 
 	@Rule public JUnitRuleMockery context = new JUnitRuleMockery() {{
 		setImposteriser(ClassImposteriser.INSTANCE);
@@ -60,7 +61,7 @@ public class ConfluenceMavenPluginTest {
 			oneOf(confluence).sync(new File[]{ }, readmeTitle);
 		}});
 		
-		plugin.deploy(confluence, OUTPUT_DIR, parentTitle);
+		plugin.deploy(confluence, OUTPUT_DIR, parentTitle, README_MD);
 	}
 
 	private void create(File file) throws FileNotFoundException {

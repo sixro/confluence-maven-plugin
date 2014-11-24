@@ -34,6 +34,9 @@ public class Deploy extends AbstractMojo {
 
 	@Parameter(name="parentTitle", required=true)
 	private String parentTitle;
+	
+	@Parameter(name="readme", defaultValue="${project.basedir}/README.md")
+	private File readme;
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
@@ -53,7 +56,7 @@ public class Deploy extends AbstractMojo {
 			);
 			confluence.login();
 
-			plugin.deploy(confluence, outputDirectory, parentTitle);
+			plugin.deploy(confluence, outputDirectory, parentTitle, readme);
 		} catch (DeployException e) {
 			throw new MojoExecutionException("Unable to deploy to confluence", e);
 		} catch (ConfluenceException e) {
