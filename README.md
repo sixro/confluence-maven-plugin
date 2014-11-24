@@ -151,6 +151,13 @@ In the next chapter you'll have a description for every configuration parameter.
   * `wikiDirectory` is the directory where to find additional wiki files
 	(optional; default value is `src/wiki`)
 
+
+[Jamie Townsend](http://github.com/jamietownsend) has found an issue related to character encoding on v1.0.1: 
+the plugin read markdowns with default character encoding.  
+Starting with v1.0.3, the default character encoding is `UTF-8`, but you can change
+it defining system variable `markdown.characterencoding`.
+
+
 ### <a name="usage_settings_xml_example" />settings.xml example
 
 Here you can find an example on what to add in your `${HOME}\.m2\settings.xml`.
