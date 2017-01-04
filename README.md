@@ -152,8 +152,8 @@ In the next chapter you'll have a description for every configuration parameter.
              `README.md` in the root of your project)
   * `wikiDirectory` is the directory where to find additional wiki files
 	(optional; default value is `src/wiki`)
- * `username` is the username credential to confluence (optional; if serverId is defined)
- * `password` is the password credential to confluence (optional; if serverId is defined)
+  * `username` is the username credential to confluence (optional; if serverId is defined)
+  * `password` is the password credential to confluence (optional; if serverId is defined)
 
 
 [Jamie Townsend](http://github.com/jamietownsend) has found an issue related to character encoding on v1.0.1: 
