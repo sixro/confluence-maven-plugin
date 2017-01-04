@@ -126,6 +126,8 @@ In order to use the plugin you have to add these lines in your `pom.xml`:
 					<endpoint>http://myconfluence:9090/rpc/xmlrpc</endpoint>
 					<spaceKey>MYSPACE</spaceKey>
 					<parentTitle>MyParent title</parentTitle>
+					<username>ConfluenceUsername</username>
+					<password>ConfluencePassword</password>
 				</configuration>
 			</execution>
 		</executions>
@@ -137,7 +139,7 @@ In the next chapter you'll have a description for every configuration parameter.
 ### <a name="usage_plugin_configuration" />Plugin configuration
 
   * `serverId` is used to look up in your `${HOME}/.m2/settings.xml` for 
-                credentials to use to connect to your confluence
+                credentials to use to connect to your confluence (optional; if username and password is defined)
   * `endpoint` is the URL of your confluence XMLRPC apis
   * `spaceKey` is a space key found on your confluence
   * `parentTitle` is the parent title of a page which content will be replaced 
@@ -150,6 +152,8 @@ In the next chapter you'll have a description for every configuration parameter.
              `README.md` in the root of your project)
   * `wikiDirectory` is the directory where to find additional wiki files
 	(optional; default value is `src/wiki`)
+ * `username` is the username credential to confluence (optional; if serverId is defined)
+ * `password` is the password credential to confluence (optional; if serverId is defined)
 
 
 [Jamie Townsend](http://github.com/jamietownsend) has found an issue related to character encoding on v1.0.1: 
