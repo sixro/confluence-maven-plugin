@@ -23,8 +23,8 @@ public class Deploy extends AbstractMojo {
 	@Parameter(name="outputDirectory", defaultValue="${project.build.directory}/confluence")
 	private File outputDirectory;
 
-	@Parameter(name="serverId", required=true)
-	private String serverId;
+	@Parameter(name="serverId")
+	private String serverId = null;
 	
 	@Parameter(name="endpoint", required=true)
 	private String endpoint;
@@ -38,22 +38,22 @@ public class Deploy extends AbstractMojo {
 	@Parameter(name="readme", defaultValue="${project.basedir}/README.md")
 	private File readme;
 
+	@Parameter(name="username")
+	private String username = null;
+
+	@Parameter(name="password")
+	private String password = null;
+
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		getLog().info(getClass().getName() + "execute***");
 
-		Server server = settings.getServer(serverId);
-		if (server == null)
-			throw new MojoFailureException("Unable to find any server identified by \"" + serverId + "\" in your settings.xml");
+		setUsernameAndPassword();
 
 		ConfluenceMavenPlugin plugin = new ConfluenceMavenPlugin();
 		Confluence confluence = null;
 		try {
-			confluence = new Confluence(
-					endpoint, 
-					new Confluence.Credentials(server.getUsername(), server.getPassword()), 
-					spaceKey
-			);
+			confluence = new Confluence(endpoint, new Confluence.Credentials(username, password), spaceKey);
 			confluence.login();
 
 			plugin.deploy(confluence, outputDirectory, parentTitle, readme);
@@ -64,6 +64,20 @@ public class Deploy extends AbstractMojo {
 		} finally {
 			if (confluence != null)
 				confluence.logout(); 
+		}
+	}
+
+	private void setUsernameAndPassword() throws MojoFailureException, MojoExecutionException {
+		if(serverId != null){
+			Server server = settings.getServer(serverId);
+			if (server == null) {
+				throw new MojoFailureException("Unable to find any server identified by \"" + serverId + "\" in your settings.xml");
+			} else {
+				username = server.getUsername();
+				password = server.getPassword();
+			}
+		} else if (username == null || password == null){
+			throw new MojoExecutionException("Nether serverId or username and password for confluence defined");
 		}
 	}
 

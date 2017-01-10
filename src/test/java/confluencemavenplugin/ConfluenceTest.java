@@ -16,11 +16,12 @@ public class ConfluenceTest {
 		);
 		confluence.login();
 	}
-	
+	@Ignore
 	@Test public void returns_false_when_a_page_does_not_exists() {
 		assertFalse(confluence.existPage("This page cannot exists"));
 	}
 
+	@Ignore
 	@Test public void add_page_then_update_it_and_last_delete_it() {
 		String title = "My page";
 		assertFalse(confluence.existPage(title));
@@ -35,6 +36,7 @@ public class ConfluenceTest {
 		confluence.deletePage(title);
 	}
 
+	@Ignore
 	@Test public void returns_tag_text() {
 		assertEquals("Hello World", confluence.tagText("<body><h1>Hello World</h1></body>", "h1"));
 	}
