@@ -200,6 +200,7 @@ Thanks!
 
   * [Sixro](http://github.com/sixro)
   * [jamietownsend](http://github.com/jamietownsend)
+  * [pettersolberg88](http://github.com/pettersolberg88)
 
 ## <a name="credits_inspiration_alternatives"/>Credits, Inspiration, Alternatives
 
