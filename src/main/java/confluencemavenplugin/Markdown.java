@@ -1,12 +1,16 @@
 package confluencemavenplugin;
 
 import java.io.*;
+import java.util.Arrays;
 
 import org.apache.commons.io.*;
 
+import org.commonmark.ext.gfm.tables.TablesExtension;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+
+
 
 public class Markdown {
 
@@ -15,8 +19,9 @@ public class Markdown {
 	private String text;
 	private File file;
 
-	Parser parser = Parser.builder().build();
-	HtmlRenderer renderer = HtmlRenderer.builder().build();
+
+	Parser parser = Parser.builder().extensions(Arrays.asList(TablesExtension.create())).build();
+	HtmlRenderer renderer = HtmlRenderer.builder().extensions(Arrays.asList(TablesExtension.create())).build();
 
 	public Markdown(String text) {
 		this.text = text;
