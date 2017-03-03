@@ -4,7 +4,9 @@ import java.io.*;
 
 import org.apache.commons.io.*;
 
-import com.github.rjeschke.txtmark.Processor;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 public class Markdown {
 
@@ -12,6 +14,9 @@ public class Markdown {
 	
 	private String text;
 	private File file;
+
+	Parser parser = Parser.builder().build();
+	HtmlRenderer renderer = HtmlRenderer.builder().build();
 
 	public Markdown(String text) {
 		this.text = text;
@@ -32,7 +37,8 @@ public class Markdown {
 	}
 
 	public String toHtml() {
-		return Processor.process(text);
+		Node document = parser.parse(text);
+		return renderer.render(document);
 	}
 	
 	public void toHtmlFile(File directory) throws IOException {
