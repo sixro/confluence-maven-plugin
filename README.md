@@ -201,6 +201,7 @@ Thanks!
   * [Sixro](http://github.com/sixro)
   * [jamietownsend](http://github.com/jamietownsend)
   * [pettersolberg88](http://github.com/pettersolberg88)
+  * [puddingspudding](http://github.com/puddingspudding)
 
 ## <a name="credits_inspiration_alternatives"/>Credits, Inspiration, Alternatives
 
