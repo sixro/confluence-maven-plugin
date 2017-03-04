@@ -8,6 +8,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.settings.*;
 
 import confluencemavenplugin.*;
+import org.sonatype.plexus.components.sec.dispatcher.SecDispatcher;
+import org.sonatype.plexus.components.sec.dispatcher.SecDispatcherException;
 
 @Mojo(
 		name="deploy",
@@ -44,6 +46,9 @@ public class Deploy extends AbstractMojo {
 	@Parameter(name="password")
 	private String password = null;
 
+	@Component( hint = "mng-4384" )
+	private SecDispatcher secDispatcher;
+
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		getLog().info(getClass().getName() + "execute***");
@@ -74,7 +79,11 @@ public class Deploy extends AbstractMojo {
 				throw new MojoFailureException("Unable to find any server identified by \"" + serverId + "\" in your settings.xml");
 			} else {
 				username = server.getUsername();
-				password = server.getPassword();
+				try {
+					password = secDispatcher.decrypt(server.getPassword());
+				} catch (SecDispatcherException e) {
+					password = server.getPassword();
+				}
 			}
 		} else if (username == null || password == null){
 			throw new MojoExecutionException("Nether serverId or username and password for confluence defined");
